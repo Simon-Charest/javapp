@@ -10,7 +10,6 @@ public class Main extends JFrame
     {
         JLabel jLabel = createJLabel("src/javapp/smiley.png");
         JLayeredPane jLayeredPane = createJLayeredPane();
-        jLayeredPane.add(jLabel);
 
         // Frame
         setBackground(Color.BLACK);
@@ -21,24 +20,35 @@ public class Main extends JFrame
         setLocationRelativeTo(null);
         setVisible(true);
         add(jLayeredPane);
+        add(jLabel);
     }
 
-    private static JLabel createJLabel(String filename)
+    private JLabel createJLabel(String filename)
     {
         ImageIcon imageIcon = new ImageIcon(filename);
         JLabel jLabel = new JLabel(imageIcon, JLabel.LEFT);
         jLabel.setBackground(Color.RED);
         jLabel.setVerticalAlignment(JLabel.TOP);
         jLabel.setVisible(true);
+        MouseListener mouseListener = createMouseListener();
+        jLabel.addMouseListener(mouseListener);
 
         return jLabel;
     }
 
-    private static JLayeredPane createJLayeredPane()
+    private JLayeredPane createJLayeredPane()
     {
         JLayeredPane jLayeredPane = new JLayeredPane();
         jLayeredPane.setBackground(Color.BLUE);
         jLayeredPane.setVisible(true);
+        MouseListener mouseListener = createMouseListener();
+        jLayeredPane.addMouseListener(mouseListener);
+
+        return jLayeredPane;
+    }
+
+    private MouseListener createMouseListener()
+    {
         MouseListener mouseListener = new MouseAdapter()
         {
             public void mousePressed(MouseEvent mouseEvent)
@@ -48,16 +58,15 @@ public class Main extends JFrame
                 transferHandler.exportAsDrag(jComponent, mouseEvent, TransferHandler.COPY);
             }
         };
-        jLayeredPane.addMouseListener(mouseListener);
 
-        return jLayeredPane;
+        return mouseListener;
     }
 
     public static void main(String[] args)
     {
         System.out.println("** BEGIN **");
 
-        Main app = new Main();
-        app.setVisible(true);
+        Main main = new Main();
+        main.setVisible(true);
     }
 }

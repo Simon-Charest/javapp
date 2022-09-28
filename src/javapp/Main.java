@@ -19,8 +19,18 @@ public class Main extends JFrame
         setTitle("JavApp");
         setLocationRelativeTo(null);
         setVisible(true);
-        add(jLayeredPane);
+
+        // Grid
+        setLayout(new GridLayout(3,3));
         add(jLabel);
+        add(new JButton("2"));
+        add(new JButton("3"));
+        add(new JButton("4"));
+        add(new JButton("5"));
+        add(new JButton("6"));
+        add(new JButton("7"));
+        add(new JButton("8"));
+        add(jLayeredPane);
     }
 
     private JLabel createJLabel(String filename)
@@ -32,6 +42,7 @@ public class Main extends JFrame
         jLabel.setVisible(true);
         MouseListener mouseListener = createMouseListener();
         jLabel.addMouseListener(mouseListener);
+        jLabel.setTransferHandler(new TransferHandler("foreground"));
 
         return jLabel;
     }
@@ -43,13 +54,14 @@ public class Main extends JFrame
         jLayeredPane.setVisible(true);
         MouseListener mouseListener = createMouseListener();
         jLayeredPane.addMouseListener(mouseListener);
+        jLayeredPane.setTransferHandler(new TransferHandler("foreground"));
 
         return jLayeredPane;
     }
 
     private MouseListener createMouseListener()
     {
-        MouseListener mouseListener = new MouseAdapter()
+        return new MouseAdapter()
         {
             public void mousePressed(MouseEvent mouseEvent)
             {
@@ -58,8 +70,6 @@ public class Main extends JFrame
                 transferHandler.exportAsDrag(jComponent, mouseEvent, TransferHandler.COPY);
             }
         };
-
-        return mouseListener;
     }
 
     public static void main(String[] args)
